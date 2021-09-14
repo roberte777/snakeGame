@@ -1,8 +1,8 @@
 export default class Learner {
   constructor() {
-    this.epsilon = 0.2;
-    this.lr = 0.7;
-    this.discount = 0.3;
+    this.epsilon = 0.1;
+    this.lr = 0.1;
+    this.discount = 0.5;
     this.qvalues = this.loadQValues();
     this.history = [];
     this.directions = [
@@ -95,7 +95,13 @@ export default class Learner {
       distance: snakeDistance,
     });
     this.prevdir = action;
-    console.log(action, this.history, currState, this.qvalues[currState]);
+    console.log(
+      action,
+      this.history,
+      currState,
+      this.qvalues[currState],
+      snake
+    );
     // console.log(this.history, action);
     return action;
   }
@@ -111,7 +117,17 @@ export default class Learner {
     var walls = [];
     this.directions.forEach((direction) => {
       var check = [snake[0].x + direction[0], snake[0].y + direction[1]];
-      if (check in snake || this.checkBoundary(check)) {
+      var tempSnake = snake;
+      console.log(tempSnake);
+      // check = JSON.stringify(check);
+      // tempSnake = JSON.stringify(tempSnake);
+      var test = false;
+      tempSnake.forEach((link) => {
+        if (link.x == check[0] && link.y == check[1]) {
+          test = true;
+        }
+      });
+      if (test || this.checkBoundary(check)) {
         walls.push(1);
       } else {
         walls.push(0);
@@ -125,8 +141,8 @@ export default class Learner {
     if (
       coordinate[0] < 0 ||
       coordinate[1] < 0 ||
-      coordinate[0] > 600 ||
-      coordinate[1] > 600
+      coordinate[0] >= 600 ||
+      coordinate[1] >= 600
     ) {
       return true;
     } else {
@@ -138,7 +154,6 @@ export default class Learner {
     for (var i = this.history.length - 1; i >= 0; i--) {
       // console.log(reason);
       if (reason) {
-        console.log("test", reason);
         var sN = this.history[i]["state"];
         var aN = this.history[i]["action"];
         var reward = -1;
@@ -147,23 +162,23 @@ export default class Learner {
         reason = null;
       } else {
         var s1 = this.history[i]["state"];
+        var a1 = this.history[i]["action"];
         var s0 = this.history[i + 1]["state"];
-        var a0 = this.history[i + 1]["action"];
+        // var a0 = this.history[i + 1]["action"];
         var d1 = this.history[i].distance;
         var d2 = this.history[i + 1].distance;
         if (d2 == 0) {
           reward = 1;
-        } else if (d1 < d2) {
+        } else if (d2 < d1) {
           reward = 1;
         } else {
           reward = -1;
         }
         var state_str = s0;
         var new_state_str = s1;
-        this.qvalues[state_str][a0] =
-          (1 - this.lr) * this.qvalues[state_str][a0] +
-          this.lr *
-            (reward + this.discount * Math.max(...this.qvalues[new_state_str]));
+        this.qvalues[s1][a1] =
+          (1 - this.lr) * this.qvalues[s1][a1] +
+          this.lr * (reward + this.discount * Math.max(...this.qvalues[s0]));
       }
     }
   }

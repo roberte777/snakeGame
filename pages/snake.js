@@ -124,6 +124,12 @@ export default function Home() {
     setSnake(new Node(0, 0));
     generateFood();
     Jeffrey.reset();
+    if (games > 50) {
+      Jeffrey.epsilon = 0.05;
+    }
+    if (games > 100) {
+      Jeffrey.epsilon = 0;
+    }
     setScore(0);
     setGames(games + 1);
   }
