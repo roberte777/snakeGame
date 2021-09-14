@@ -1,0 +1,20 @@
+.container {
+  position: relative;
+  border: 2px solid black;
+  width: 604px;
+  height: 604px;
+  margin: 50px auto;
+}
+.snake {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 1px solid white;
+}
+.food {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  /* border: 1px solid red; */
+}
