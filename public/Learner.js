@@ -17,6 +17,7 @@ export default class Learner {
   reset() {
     this.history = [];
   }
+  save() {}
   loadQValues() {
     var horizontal, vert, walls;
     var state = {};
