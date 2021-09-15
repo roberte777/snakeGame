@@ -1,8 +1,9 @@
 import { db } from "../firebase/clientApp";
-import { collection, addDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 export default class Learner {
-  constructor() {
-    this.epsilon = 0.1;
+  constructor(loadFromDB) {
+    // this.epsilon = 0.1;
+    this.epsilon = 0;
     this.lr = 0.1;
     this.discount = 0.5;
     this.qvalues = this.loadQValues();
@@ -20,11 +21,14 @@ export default class Learner {
     this.history = [];
   }
   async save() {
-    const docRef = await addDoc(collection(db, "users"), {
-      first: "Ada",
-      last: "Lovelace",
-      born: 1815,
+    await setDoc(doc(db, "QValues", "qvalue"), {
+      values: this.qvalues,
     });
+  }
+  async load() {
+    const document = await getDoc(doc(db, "QValues", "qvalue"));
+    console.log(document.data().values);
+    this.qvalues = document.data().values;
   }
   loadQValues() {
     var horizontal, vert, walls;
@@ -127,7 +131,6 @@ export default class Learner {
     this.directions.forEach((direction) => {
       var check = [snake[0].x + direction[0], snake[0].y + direction[1]];
       var tempSnake = snake;
-      console.log(tempSnake);
       // check = JSON.stringify(check);
       // tempSnake = JSON.stringify(tempSnake);
       var test = false;
@@ -146,7 +149,6 @@ export default class Learner {
     return "" + horizontal + "" + vert + "" + state;
   }
   checkBoundary(coordinate) {
-    // console.log("checking", coordinate);
     if (
       coordinate[0] < 0 ||
       coordinate[1] < 0 ||
@@ -161,7 +163,6 @@ export default class Learner {
 
   updateQValues(reason) {
     for (var i = this.history.length - 1; i >= 0; i--) {
-      // console.log(reason);
       if (reason) {
         var sN = this.history[i]["state"];
         var aN = this.history[i]["action"];

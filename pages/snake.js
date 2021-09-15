@@ -24,9 +24,7 @@ function updateSnake(startx, starty, headNode) {
     curr = curr.next;
   }
 }
-const Jeffrey = new Learner();
-var dir = [10, 0];
-
+const Jeffrey = new Learner(true);
 export default function Home() {
   var count = -1;
   const [lost, setLost] = useState(false);
@@ -39,7 +37,6 @@ export default function Home() {
 
   useEffect(() => {
     generateFood();
-    Jeffrey.save();
   }, []);
   //   useEffect(() => {
   //     document.addEventListener("keydown", changeDirection);
@@ -47,7 +44,7 @@ export default function Home() {
   //   }, [direction]);
   useEffect(() => {
     if (!paused && !lost) {
-      const interval = setInterval(moveSnake, 100);
+      const interval = setInterval(moveSnake, 50);
 
       return () => clearInterval(interval);
     }
@@ -126,10 +123,10 @@ export default function Home() {
     generateFood();
     Jeffrey.reset();
     if (games > 50) {
-      Jeffrey.epsilon = 0.05;
+      // Jeffrey.epsilon = 0.05;
     }
     if (games > 100) {
-      Jeffrey.epsilon = 0;
+      // Jeffrey.epsilon = 0;
     }
     setScore(0);
     setGames(games + 1);
@@ -187,6 +184,8 @@ export default function Home() {
       >
         Reset
       </button>
+      <button onClick={() => Jeffrey.save()}>Save Progress</button>
+      <button onClick={() => Jeffrey.load()}>Load Jeffrey</button>
       <div>{paused}</div>
     </>
   );
