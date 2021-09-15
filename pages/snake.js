@@ -38,10 +38,7 @@ export default function Home() {
   useEffect(() => {
     generateFood();
   }, []);
-  //   useEffect(() => {
-  //     document.addEventListener("keydown", changeDirection);
-  //     return () => document.removeEventListener("keydown", changeDirection);
-  //   }, [direction]);
+
   useEffect(() => {
     if (!paused && !lost) {
       const interval = setInterval(moveSnake, 50);
@@ -55,33 +52,11 @@ export default function Home() {
     var tempx = currHead.x;
     var tempy = currHead.y;
     const direction = Jeffrey.act(display(), food);
-    // if (
-    //   direction[0] != (dir[0] == 0 ? 0 : dir[0] * -1) ||
-    //   direction[1] != (dir[1] == 0 ? 0 : dir[1] * -1)
-    // ) {
-    //   dir = direction;
-    // }
+
     currHead.x += direction[0];
     currHead.y += direction[1];
     let curr = currHead.next;
-    // while (curr != null) {
-    //   if (currHead.x == curr.x && currHead.y == curr.y) {
-    //     setLost(true);
-    //     Jeffrey.updateQValues(true);
-    //     reset();
-    //   }
-    //   curr = curr.next;
-    // }
-    // if (currHead.x < 0 || currHead.x >= 600) {
-    //   setLost(true);
-    //   Jeffrey.updateQValues(true);
-    //   reset();
-    // }
-    // if (currHead.y < 0 || currHead.y >= 600) {
-    //   setLost(true);
-    //   Jeffrey.updateQValues(true);
-    //   reset();
-    // }
+
     if (currHead.x == food[0] && currHead.y == food[1]) {
       currHead.next = snake;
       setScore(score + 1);
