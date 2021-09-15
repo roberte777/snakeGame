@@ -1,3 +1,5 @@
+import { db } from "../firebase/clientApp";
+import { collection, addDoc } from "firebase/firestore";
 export default class Learner {
   constructor() {
     this.epsilon = 0.1;
@@ -17,7 +19,13 @@ export default class Learner {
   reset() {
     this.history = [];
   }
-  save() {}
+  async save() {
+    const docRef = await addDoc(collection(db, "users"), {
+      first: "Ada",
+      last: "Lovelace",
+      born: 1815,
+    });
+  }
   loadQValues() {
     var horizontal, vert, walls;
     var state = {};

@@ -39,6 +39,7 @@ export default function Home() {
 
   useEffect(() => {
     generateFood();
+    Jeffrey.save();
   }, []);
   //   useEffect(() => {
   //     document.addEventListener("keydown", changeDirection);
