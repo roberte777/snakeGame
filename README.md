@@ -1,4 +1,9 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a passion project and an exploration into machine learning. I have not yet designed a good looking front end for this application.
+
+Essentially, there are two parts to this project. One is a simple snake game that users can play. 
+The second is the machine learning. I designed an AI that learns to play snake using reinforcement learning. This process was really fun, and it is neat to see the AI learn as it plays. After each game, it assesses the moves it took during that game and assigns them reward values.
+
+
 
 ## Getting Started
 
